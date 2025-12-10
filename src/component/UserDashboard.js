@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from "react";
 import LogoutButton from "./LogoutButton";
 
-function UserDashboard({setRole}) {
-
-  const [data, setData] = useState("");
+function UserDashboard({ setRole }) {
+  const [userData, setUserData] = useState("");
 
   useEffect(() => {
-
     fetch("http://localhost:8090/api/user/data", {
       method: "GET",
-      credentials: "include" // SEND THE COOKIE
+      credentials: "include"
     })
       .then(res => {
-        if (!res.ok) return res.json().then(err => setData(err.error || "Access Denied"));
+        if (!res.ok) return res.json().then(err => setUserData(err.error));
         return res.text();
       })
-      .then(text => setData(text));
-
+      .then(text => setUserData(text));
   }, []);
 
   return (
     <div>
       <h2>User Dashboard</h2>
-      <p>{data}</p>
+      <p>User Data: {userData}</p>
       <LogoutButton setRole={setRole} />
     </div>
   );
