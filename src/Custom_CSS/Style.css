@@ -1,0 +1,178 @@
+.topNavBar{
+    background: linear-gradient(120deg, #11242d, #203a43, #2c5364);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.topNavHeadingBrand{
+    color: #fff;
+}
+
+/* Background */
+.register-container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Glass card */
+.register-card {
+  width: 100%;
+  max-width: 430px;
+  padding: 30px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  margin-top: 2%;
+}
+
+/* Title */
+.register-title {
+  text-align: center;
+  font-weight: 700;
+}
+
+.register-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+/* OAuth buttons */
+.oauth-buttons {
+  margin-bottom: 15px;
+}
+
+.oauth-btn {
+  padding: 12px;
+  border-radius: 14px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.google-btn {
+  background: #ffffff;
+  color: #000;
+}
+
+.google-btn:hover {
+  background: #f1f1f1;
+  color: #000;
+}
+
+.github-btn {
+  background: #24292f;
+  color: #fff;
+}
+
+.github-btn:hover {
+  background: #1b1f23;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+  color: #aaa;
+  font-size: 12px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.divider span {
+  padding: 0 10px;
+}
+
+/* Inputs */
+.futuristic-input {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  color: #fff;
+  padding: 12px;
+}
+
+.futuristic-input::placeholder {
+  color: #aaa;
+}
+
+.futuristic-input:focus {
+  border-color: #0dcaf0;
+  box-shadow: 0 0 10px rgba(13, 202, 240, 0.5);
+  background: transparent;
+  color: #fff;
+}
+
+/* Register button */
+.custom-btn {
+  background: linear-gradient(135deg, #0dcaf0, #0a58ca);
+  border: none;
+  padding: 12px;
+  border-radius: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.custom-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(13, 202, 240, 0.4);
+}
+
+/* Login link */
+.login-link, .register-link {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.login-link span, .register-link span {
+  color: #0dcaf0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+
+/* Background */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Glass card */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 30px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+/* Title */
+.login-title {
+  text-align: center;
+  font-weight: 700;
+}
+
+.login-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 20px;
+}
