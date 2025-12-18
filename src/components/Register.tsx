@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import "../Custom_CSS/Style.css";
 import toast from "react-hot-toast";
 import type { RegisterType } from "../Models/Register";
+import { registerUser } from "../Services/AuthService";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -13,9 +14,6 @@ const Register = () => {
     password: "",
   });
 
-  const [loading, setLoading] = useState<boolean>();
-  const [error, setError] = useState(null);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -23,7 +21,7 @@ const Register = () => {
     })
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if(formData.name.trim() === ""){
@@ -40,7 +38,25 @@ const Register = () => {
       toast.error("Please enter password field!");
       return;
     }
-  };
+
+    try {
+      const result = await registerUser(formData);
+      toast.success("Registered successfully!");
+      setFormData({
+          name: "",
+          email: "",
+          password: "",
+      });
+      navigate("/login");
+    } catch (error: any) {
+    const errorMessage =
+      error?.response?.data?.error ||   // backend message
+      error?.message ||                   // axios/network error
+      "Registration failed!";             // fallback
+    toast.error(errorMessage);
+    console.error(error);
+  }
+};
 
   const handleGoogleLogin = () => {
     console.log("Google OAuth");

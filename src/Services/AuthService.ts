@@ -1,5 +1,8 @@
+import apiClient from "../Config/ApiClient"
 import type { RegisterType } from "../Models/Register"
 
-export const registerUser = (data: RegisterType) =>{
-    
+// Register
+export const registerUser = async (data: RegisterType) =>{
+    const res = await apiClient.post(`/auth/register`, data);
+    return res.data;
 }
