@@ -8,6 +8,8 @@ import About from './components/About.tsx'
 import Login from './components/Login.tsx'
 import Register from './components/Register.tsx'
 import BaseLayout from './RootLayout/BaseLayout.tsx'
+import Dashboard from './components/User/Dashboard.tsx'
+import UserLayout from './components/User/UserLayout.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -17,6 +19,9 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/about' element={<About/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/register' element={<Register/>} />
+        <Route path='/dashboard' element={<UserLayout/>}>
+          <Route index element={<Dashboard/>} />
+        </Route>
       </Route>
     </Routes>
   </BrowserRouter>
