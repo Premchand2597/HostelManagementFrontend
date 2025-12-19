@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import type { LoginType } from "../Models/Login";
-import { loginUser } from "../Services/AuthService";
+import { loginUser, logoutUser } from "../Services/AuthService";
 import type { LoginResponseDataType } from "../Models/LoginResponseData";
+import { persist } from "zustand/middleware";
 
 export interface AuthState{
     // state
@@ -11,20 +12,34 @@ export interface AuthState{
     // actions
     login: (loginData: LoginType) => Promise<LoginResponseDataType>;
     logout: () => void;
+    checkLogin: ()=> boolean;
 }
 
 // Main logic for global state
-const useAuth = create<AuthState>((set, get)=>({
+const useAuth = create<AuthState>()(persist((set, get)=>({
     userEmail: null,
     token: null,
     isLoggedIn: false,
     login: async (loginData)=>{
         const res = await loginUser(loginData);
-        // console.log(res);
         set({userEmail: res.email, token: res.accessToken, isLoggedIn: true})
         return res;
     },
-    logout: ()=>{},
-}));
+    logout: async ()=>{
+        try {
+            await logoutUser();
+        } catch (error) {
+            console.error(error);
+        }
+        set({userEmail: null, token: null, isLoggedIn: false})
+    },
+    checkLogin: ()=>{
+        if(get().token && get().isLoggedIn){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}), {name: 'auth-key'}));
 
 export default useAuth;

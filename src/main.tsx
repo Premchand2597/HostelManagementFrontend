@@ -9,7 +9,8 @@ import Login from './components/Login.tsx'
 import Register from './components/Register.tsx'
 import BaseLayout from './RootLayout/BaseLayout.tsx'
 import Dashboard from './components/User/Dashboard.tsx'
-import UserLayout from './components/User/UserLayout.tsx'
+import UserLayout from './RootLayout/UserLayout.tsx'
+import Profile from './components/User/Profile.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/register' element={<Register/>} />
         <Route path='/dashboard' element={<UserLayout/>}>
           <Route index element={<Dashboard/>} />
+          <Route path='profile' element={<Profile/>} />
         </Route>
       </Route>
     </Routes>

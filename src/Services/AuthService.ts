@@ -14,3 +14,15 @@ export const loginUser = async (data: LoginType) =>{
     const res = await apiClient.post<LoginResponseDataType>(`/auth/login`, data);
     return res.data;
 }
+
+// Logout
+export const logoutUser = async () =>{
+    const res = await apiClient.post(`/auth/logout`);
+    return res.data; 
+}
+
+// Fetch user data
+export const fetchUserData = async () =>{
+    const res = await apiClient.get(`/user/data`);
+    return res.data;
+}
