@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import "../Custom_CSS/Style.css";
 import type { LoginType } from "../Models/Login";
 import toast from "react-hot-toast";
-import { loginUser } from "../Services/AuthService";
 import useAuth from "../Store/GlobalState";
+import OAuth2Buttons from "./OAuth2Buttons";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -61,15 +61,6 @@ const Login = () => {
     setIsButtonClicked(false);
   }
 };
-  const handleGoogleLogin = () => {
-    console.log("Google OAuth Login");
-    // window.location.href = "http://localhost:8080/oauth2/authorization/google";
-  };
-
-  const handleGithubLogin = () => {
-    console.log("GitHub OAuth Login");
-    // window.location.href = "http://localhost:8080/oauth2/authorization/github";
-  };
 
   return (
     <div className="login-container">
@@ -79,22 +70,7 @@ const Login = () => {
           Hostel Management
         </p>
 
-        {/* OAuth Buttons */}
-        <div className="oauth-buttons">
-          <button
-            className="btn oauth-btn google-btn w-100 mb-2"
-            onClick={handleGoogleLogin}
-          >
-            Continue with Google
-          </button>
-
-          <button
-            className="btn oauth-btn github-btn w-100"
-            onClick={handleGithubLogin}
-          >
-            Continue with GitHub
-          </button>
-        </div>
+          <OAuth2Buttons />
 
         <div className="divider">
           <span>OR</span>

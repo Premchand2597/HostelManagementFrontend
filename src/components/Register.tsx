@@ -4,6 +4,7 @@ import "../Custom_CSS/Style.css";
 import toast from "react-hot-toast";
 import type { RegisterType } from "../Models/Register";
 import { registerUser } from "../Services/AuthService";
+import OAuth2Buttons from "./OAuth2Buttons";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -58,16 +59,6 @@ const Register = () => {
   }
 };
 
-  const handleGoogleLogin = () => {
-    console.log("Google OAuth");
-    // window.location.href = "http://localhost:8080/oauth2/authorization/google";
-  };
-
-  const handleGithubLogin = () => {
-    console.log("GitHub OAuth");
-    // window.location.href = "http://localhost:8080/oauth2/authorization/github";
-  };
-
   return (
     <div className="register-container">
       <div className="register-card">
@@ -76,22 +67,7 @@ const Register = () => {
           Hostel Management
         </p>
 
-        {/* OAuth Buttons */}
-        <div className="oauth-buttons">
-          <button
-            className="btn oauth-btn google-btn w-100 mb-2"
-            onClick={handleGoogleLogin}
-          >
-            Continue with Google
-          </button>
-
-          <button
-            className="btn oauth-btn github-btn w-100"
-            onClick={handleGithubLogin}
-          >
-            Continue with GitHub
-          </button>
-        </div>
+        <OAuth2Buttons />
 
         <div className="divider">
           <span>OR</span>
