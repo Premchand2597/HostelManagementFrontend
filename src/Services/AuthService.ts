@@ -26,3 +26,9 @@ export const fetchUserData = async () =>{
     const res = await apiClient.get(`/user/data`);
     return res.data;
 }
+
+// call /refresh endpoint to generate new access token
+export const generateNewAccessToken = async () =>{
+    const res = await apiClient.post(`/auth/refresh`);
+    return res.data;
+}

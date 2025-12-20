@@ -13,6 +13,7 @@ export interface AuthState{
     login: (loginData: LoginType) => Promise<LoginResponseDataType>;
     logout: () => void;
     checkLogin: ()=> boolean;
+    setNewAccessToken: (token: string) => void;
 }
 
 // Main logic for global state
@@ -39,7 +40,10 @@ const useAuth = create<AuthState>()(persist((set, get)=>({
         }else{
             return false;
         }
-    }
+    },
+    setNewAccessToken: (token)=>{
+        set({token});
+    },
 }), {name: 'auth-key'}));
 
 export default useAuth;
