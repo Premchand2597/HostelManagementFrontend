@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { fetchUserData } from '../../Services/AuthService';
 import toast from 'react-hot-toast';
 
-const Dashboard = () => {
+const UserDashboard = () => {
 
   const [userData, setUserData] = useState<string>("");
 
@@ -23,10 +23,11 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1>User Dashboard for {userData}</h1>
-      <button onClick={handleFetchData}>Fetch Data</button>
+      <h1>User Dashboard</h1>
+      <h1>User Data - {userData}</h1>
+      <button onClick={handleFetchData}>Fetch User Data</button>
     </div>
   )
 }
 
-export default Dashboard
+export default UserDashboard

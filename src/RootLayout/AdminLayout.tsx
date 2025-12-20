@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from "react-router";
 import useAuth from "../Store/GlobalState";
 
-const UserLayout = () => {
+const AdminLayout = () => {
   return (
     <div>
-      <h1>User Layout</h1>
+      <h1>Admin Layout</h1>
       <Outlet />
     </div>
-  );
+  )
 };
 
-export default UserLayout;
+export default AdminLayout;

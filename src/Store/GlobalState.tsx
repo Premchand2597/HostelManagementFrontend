@@ -3,10 +3,12 @@ import type { LoginType } from "../Models/Login";
 import { loginUser, logoutUser } from "../Services/AuthService";
 import type { LoginResponseDataType } from "../Models/LoginResponseData";
 import { persist } from "zustand/middleware";
+import type { Role } from "../Models/Role";
 
 export interface AuthState{
     // state
     userEmail: string | null;
+    role: Role | null;
     token: string | null;
     isLoggedIn: boolean;
     // actions
@@ -19,11 +21,12 @@ export interface AuthState{
 // Main logic for global state
 const useAuth = create<AuthState>()(persist((set, get)=>({
     userEmail: null,
+    role: null,
     token: null,
     isLoggedIn: false,
     login: async (loginData)=>{
         const res = await loginUser(loginData);
-        set({userEmail: res.email, token: res.accessToken, isLoggedIn: true})
+        set({userEmail: res.email, role: res.role as Role, token: res.accessToken, isLoggedIn: true})
         return res;
     },
     logout: async ()=>{
@@ -32,7 +35,7 @@ const useAuth = create<AuthState>()(persist((set, get)=>({
         } catch (error) {
             console.error(error);
         }
-        set({userEmail: null, token: null, isLoggedIn: false})
+        set({userEmail: null, role: null, token: null, isLoggedIn: false})
     },
     checkLogin: ()=>{
         if(get().token && get().isLoggedIn){

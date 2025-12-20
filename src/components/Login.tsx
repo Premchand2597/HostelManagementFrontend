@@ -49,7 +49,16 @@ const Login = () => {
           email: "",
           password: "",
       });
-      navigate("/dashboard");
+
+      // ROLE-BASED REDIRECT
+      if (result.role === "ROLE_Admin") {
+        navigate("/admin/dashboard");
+      } else if (result.role === "ROLE_User") {
+        navigate("/user/dashboard");
+      } else {
+        navigate("/login"); // fallback
+      }
+      
     } catch (error: any) {
     const errorMessage =
       error?.response?.data ||   // backend message
