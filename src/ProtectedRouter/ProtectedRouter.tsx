@@ -1,7 +1,7 @@
 import toast from 'react-hot-toast';
-import type { ProtectedRouteProps } from '../Models/protectedRouteProps';
 import useAuth from '../Store/GlobalState';
 import { Navigate } from 'react-router';
+import type { ProtectedRouteProps } from '../Models/ProtectedRouteProps';
 
 const ProtectedRouter = ({allowedRoles, children}: ProtectedRouteProps) => {
     const {role, token} = useAuth();
@@ -10,6 +10,8 @@ const ProtectedRouter = ({allowedRoles, children}: ProtectedRouteProps) => {
     if (!token) {
         return <Navigate to="/login" replace />;
     }
+
+    //alert("role = "+role+"  --- allowedRoles = "+allowedRoles);
 
     // Logged in but role not allowed
     if (!role || !allowedRoles.includes(role)) {

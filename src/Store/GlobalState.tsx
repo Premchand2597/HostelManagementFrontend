@@ -16,6 +16,7 @@ export interface AuthState{
     logout: () => void;
     checkLogin: ()=> boolean;
     setNewAccessToken: (token: string) => void;
+    setUserLoggedInDetailsForRefresh: (userEmail: string, role: Role) => void;
 }
 
 // Main logic for global state
@@ -46,6 +47,9 @@ const useAuth = create<AuthState>()(persist((set, get)=>({
     },
     setNewAccessToken: (token)=>{
         set({token});
+    },
+    setUserLoggedInDetailsForRefresh: (userEmail, role) =>{
+        set({userEmail, role, isLoggedIn: true})
     },
 }), {name: 'auth-key'}));
 

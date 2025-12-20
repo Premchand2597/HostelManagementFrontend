@@ -1,6 +1,5 @@
 import axios from "axios";
 import useAuth from "../Store/GlobalState";
-import { applyStyles } from "@popperjs/core";
 import { generateNewAccessToken } from "../Services/AuthService";
 
 const apiClient = axios.create({
@@ -24,36 +23,125 @@ apiClient.interceptors.request.use(config=>{
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    const originalRequest = error.config as any;
 
-    // If no response or not 401 → throw error and Prevent infinite refresh loop
-    if (!error.response || error.response.status !== 401 || originalRequest._retry) {
+    // Do NOT refresh for these endpoints
+    if (
+      originalRequest.url?.includes("/auth/login") ||
+      originalRequest.url?.includes("/auth/refresh")
+    ) {
+      return Promise.reject(error);
+    }
+
+    // Not a 401 OR already retried
+    if (
+      !error.response ||
+      error.response.status !== 401 ||
+      originalRequest._retry
+    ) {
       return Promise.reject(error);
     }
 
     originalRequest._retry = true;
 
     try {
-      // Call refresh endpoint (cookie sent automatically)
-      const refreshResponse = await generateNewAccessToken();
+      // Call refresh endpoint
+      const { accessToken } = await generateNewAccessToken();
 
-      const newAccessToken = refreshResponse.accessToken;
+      // Update Zustand
+      useAuth.getState().setNewAccessToken(accessToken);
 
-      // Update Zustand store
-      useAuth.getState().setNewAccessToken(newAccessToken);
-
-      // Update header and retry original request
-      originalRequest.headers.Authorization =
-        `Bearer ${newAccessToken}`;
+      // Retry original request
+      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
       return apiClient(originalRequest);
 
     } catch (refreshError) {
-      // Refresh token invalid → logout
+      // Refresh token invalid → force logout
       useAuth.getState().logout();
       return Promise.reject(refreshError);
     }
   }
 );
+
+// or
+
+// let isRefreshing = false;
+// let pending: any[] = [];
+
+// function queueRequest(cb: any) {
+//   pending.push(cb);
+// }
+
+// function resolveQueue(newToken: string) {
+//   pending.forEach((cb) => cb(newToken));
+//   pending = [];
+// }
+
+// // response interceptors
+// apiClient.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+
+//     const is401 = error.response.status === 401;
+//     const original = error.config;
+
+//     // Do NOT refresh for these endpoints
+//     if (
+//       original.url?.includes("/auth/login") ||
+//       original.url?.includes("/auth/refresh")
+//     ) {
+//       return Promise.reject(error);
+//     }
+
+//     if (!is401 || original._retry) {
+//       //message:
+//       return Promise.reject(error);
+//     }
+
+//     original._retry = true;
+//     //we will try to refresh the token:
+//     if (isRefreshing) {
+//       return new Promise((resolve, reject) => {
+//         queueRequest((newToken: string) => {
+//           if (!newToken) return reject();
+//           original.headers.Authorization = `Bearer ${newToken}`;
+//           resolve(apiClient(original));
+//         });
+//       });
+//     }
+
+//     //start refresh
+//     isRefreshing = true;
+
+//     try {
+//       console.log("start refreshing...");
+//       const loginResponse = await generateNewAccessToken();
+//       const newToken = loginResponse.accessToken;
+//       if (!newToken) throw new Error("no access token received");
+//       useAuth
+//         .getState()
+//         .setNewAccessToken(
+//           loginResponse.accessToken
+//         );
+
+//         useAuth
+//         .getState()
+//         .setUserLoggedInDetailsForRefresh(
+//           loginResponse.email, loginResponse.role
+//         );
+
+//       resolveQueue(newToken);
+//       original.headers.Authorization = `Bearer ${newToken}`;
+//       return apiClient(original);
+//     } catch (error) {
+//       resolveQueue("null");
+//       useAuth.getState().logout();
+//       return Promise.reject(error);
+//     } finally {
+//       isRefreshing = false;
+//     }
+//   }
+// );
 
 export default apiClient;

@@ -49,8 +49,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path="dashboard/profile" element={<Profile />} />
         </Route>
 
-        <Route path='/auth/success' element={<OAuth2Success />} />
-        <Route path='/auth/failure' element={<OAuth2Failure />} />
+        <Route path='/oauth/success' element={<OAuth2Success />} />
+        <Route path='/oauth/failure' element={<OAuth2Failure />} />
       </Route>
     </Routes>
   </BrowserRouter>

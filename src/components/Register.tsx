@@ -15,6 +15,8 @@ const Register = () => {
     password: "",
   });
 
+  const [isBtnClicked, setIsBtnClicked] = useState<boolean>(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -40,6 +42,8 @@ const Register = () => {
       return;
     }
 
+    setIsBtnClicked(true);
+
     try {
       const result = await registerUser(formData);
       toast.success("Registered successfully!");
@@ -56,6 +60,8 @@ const Register = () => {
       "Registration failed!";             // fallback
     toast.error(errorMessage);
     console.error(error);
+  }finally{
+    setIsBtnClicked(false);
   }
 };
 
@@ -111,8 +117,8 @@ const Register = () => {
             />
           </div>
 
-          <button type="submit" className="btn custom-btn w-100">
-            Register
+          <button type="submit" disabled={isBtnClicked} className="btn custom-btn w-100">
+            {isBtnClicked ? "Please wait..." : "Register"}
           </button>
         </form>
 
