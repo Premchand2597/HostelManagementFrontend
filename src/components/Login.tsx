@@ -42,6 +42,7 @@ const Login = () => {
 
     try {
       const result = await login(formData);
+
       // console.log(result)
       // const result = await loginUser(formData);
       toast.success("Login successfully!");
