@@ -1,5 +1,4 @@
 import apiClient from "../Config/ApiClient"
-import refreshClient from "../Config/refreshClient";
 import type { LoginType } from "../Models/Login";
 import type { LoginResponseDataType } from "../Models/LoginResponseData";
 import type { RegisterType } from "../Models/Register"
