@@ -38,3 +38,27 @@ export const generateNewAccessToken = async () =>{
     const res = await apiClient.post(`/auth/refresh`);
     return res.data;
 }
+
+// To fetch all registered user data
+export const fetchAllUsersData = async () =>{
+    const res = await apiClient.get(`/admin/fetchAllRegistrationData`);
+    return res.data;
+}
+
+// To fetch specific data by id
+export const fetchDataById = async (id: number) =>{
+    const res = await apiClient.get(`/admin/registeredUsers/${id}`);
+    return res.data;
+}
+
+// to save the edited details
+export const updateEditedData = async (data: RegisterType, id: number) =>{
+    const res = await apiClient.put(`/admin/updateUserData/${id}`, data);
+    return res.data;
+}
+
+// to delete specific user by id
+export const deleteUserById = async (id: number) =>{
+    const res = await apiClient.delete(`/admin/deleteUser/${id}`);
+    return res.data;
+}
