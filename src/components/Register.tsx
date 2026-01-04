@@ -10,9 +10,12 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<RegisterType>({
+    id: 0,
     name: "",
     email: "",
     password: "",
+    provider: "",
+    role: "",
   });
 
   const [isBtnClicked, setIsBtnClicked] = useState<boolean>(false);
@@ -48,9 +51,12 @@ const Register = () => {
       const result = await registerUser(formData);
       toast.success("Registered successfully!");
       setFormData({
+          id: 0,
           name: "",
           email: "",
           password: "",
+          provider: "",
+          role: "",
       });
       navigate("/login");
     } catch (error: any) {
