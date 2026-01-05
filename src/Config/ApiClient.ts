@@ -2,6 +2,7 @@ import axios from "axios";
 import useAuth from "../Store/GlobalState";
 import { generateNewAccessToken } from "../Services/AuthService";
 
+// It uses every request with access token as headers for each endpoint call
 const apiClient = axios.create({
     baseURL: "http://localhost:8090/api",
     headers: {
@@ -10,6 +11,7 @@ const apiClient = axios.create({
     withCredentials: true
 });
 
+// It doesn't use any access token in headers so use it for login, register, refreshtoken and logout endpoints where it doesn't require access token in headers
 export const apiPublic = axios.create({
   baseURL: "http://localhost:8090/api",
   withCredentials: true,
@@ -25,8 +27,12 @@ apiClient.interceptors.request.use(config=>{
     return config;
 });
 
-let isRefreshing = false;
-let refreshQueue = [];
+
+let isRefreshing: boolean = false;
+// call back function
+type RefreshSubscriber = (token: string) => void;
+// queue does NOT store strings. It stores callback functions waiting for the new token.
+let refreshQueue: RefreshSubscriber[] = [];
 
 // response interceptor to generate new access token based on 401 error (Unauthorized access)
 apiClient.interceptors.response.use(

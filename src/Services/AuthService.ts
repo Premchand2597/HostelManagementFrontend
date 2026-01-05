@@ -1,4 +1,4 @@
-import {apiClient, apiPublic} from "../Config/ApiClient"
+import apiClient, { apiPublic } from "../Config/ApiClient"
 import type { LoginType } from "../Models/Login";
 import type { LoginResponseDataType } from "../Models/LoginResponseData";
 import type { RegisterType } from "../Models/Register"
@@ -21,6 +21,12 @@ export const logoutUser = async () =>{
     return res.data; 
 }
 
+// call /refresh endpoint to generate new access token
+export const generateNewAccessToken = async () =>{
+    const res = await apiPublic.post(`/auth/refresh`);
+    return res.data;
+}
+
 // Fetch user data
 export const fetchUserData = async () =>{
     const res = await apiClient.get(`/user/data`);
@@ -30,12 +36,6 @@ export const fetchUserData = async () =>{
 // Fetch admin data
 export const fetchAdminData = async () =>{
     const res = await apiClient.get(`/admin/data`);
-    return res.data;
-}
-
-// call /refresh endpoint to generate new access token
-export const generateNewAccessToken = async () =>{
-    const res = await apiPublic.post(`/auth/refresh`);
     return res.data;
 }
 
