@@ -5,19 +5,19 @@ import type { RegisterType } from "../Models/Register"
 
 // Register
 export const registerUser = async (data: RegisterType) =>{
-    const res = await apiClient.post(`/auth/register`, data);
+    const res = await apiPublic.post(`/auth/register`, data);
     return res.data;
 }
 
 // Login
 export const loginUser = async (data: LoginType) =>{
-    const res = await apiClient.post<LoginResponseDataType>(`/auth/login`, data);
+    const res = await apiPublic.post<LoginResponseDataType>(`/auth/login`, data);
     return res.data;
 }
 
 // Logout
 export const logoutUser = async () =>{
-    const res = await apiClient.post(`/auth/logout`);
+    const res = await apiPublic.post(`/auth/logout`);
     return res.data; 
 }
 
@@ -35,7 +35,7 @@ export const fetchAdminData = async () =>{
 
 // call /refresh endpoint to generate new access token
 export const generateNewAccessToken = async () =>{
-    const res = await apiClient.post(`/auth/refresh`);
+    const res = await apiPublic.post(`/auth/refresh`);
     return res.data;
 }
 
