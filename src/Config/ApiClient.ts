@@ -10,6 +10,12 @@ const apiClient = axios.create({
     withCredentials: true
 });
 
+export const apiPublic = axios.create({
+  baseURL: "http://localhost:8090/api",
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" }
+});
+
 // Add access token on every request as Bearer in request header
 apiClient.interceptors.request.use(config=>{
     const accessToken = useAuth.getState().token;
@@ -18,6 +24,9 @@ apiClient.interceptors.request.use(config=>{
     }
     return config;
 });
+
+let isRefreshing = false;
+let refreshQueue = [];
 
 // response interceptor to generate new access token based on 401 error (Unauthorized access)
 apiClient.interceptors.response.use(
@@ -44,6 +53,17 @@ apiClient.interceptors.response.use(
 
     originalRequest._retry = true;
 
+    if (isRefreshing) {
+      return new Promise(resolve => {
+        refreshQueue.push(token => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          resolve(apiClient(originalRequest));
+        });
+      });
+    }
+
+    isRefreshing = true;
+
     try {
       // Call refresh endpoint
       const { accessToken } = await generateNewAccessToken();
@@ -51,12 +71,18 @@ apiClient.interceptors.response.use(
       // Update Zustand
       useAuth.getState().setNewAccessToken(accessToken);
 
+      refreshQueue.forEach(cb => cb(accessToken));
+      refreshQueue = [];
+      isRefreshing = false;
+
       // Retry original request
       originalRequest.headers.Authorization = `Bearer ${accessToken}`;
 
       return apiClient(originalRequest);
 
     } catch (refreshError) {
+      refreshQueue = [];
+      isRefreshing = false;
       // Refresh token invalid → force logout
       useAuth.getState().logout();
       return Promise.reject(refreshError);
